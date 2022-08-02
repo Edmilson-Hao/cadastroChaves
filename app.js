@@ -44,6 +44,7 @@ db.collection('chaves').get()
 
 botaoEnviar.addEventListener('click', e => { //enviar dados
 	getFormData()
+	converterImagem()
 	db.collection('chaves').add({
 		Imobiliária: imobiliaria,
 		Vistoriador: vistoriador,
@@ -55,6 +56,18 @@ botaoEnviar.addEventListener('click', e => { //enviar dados
 
 })
 
+
+
+
+function converterImagem() {
+	const canvas = document.getElementById('imagemReduzida');
+    const imagemReduzida = canvas.toDataURL();
+    foto = imagemReduzida
+	console.log(foto)
+}
+
+
+/*
 function converterImagem() {
 
 	var receberArquivo = document.getElementById('chaveFoto').files
@@ -74,7 +87,7 @@ function converterImagem() {
 		
 	}
 }
-
+*/
 const successSignal = () => {
     Swal.fire({
         position: 'center',

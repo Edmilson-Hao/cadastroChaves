@@ -1,7 +1,7 @@
-const MAX_WIDTH = 640;
-const MAX_HEIGHT = 360;
+const MAX_WIDTH = 700;
+const MAX_HEIGHT = 525;
 const MIME_TYPE = "image/jpeg";
-const QUALITY = 0.7;
+const QUALITY = 1;
 
 const input = document.getElementById("chaveFoto");
 input.onchange = function (ev) {
@@ -18,6 +18,7 @@ input.onchange = function (ev) {
     URL.revokeObjectURL(this.src);
     const [newWidth, newHeight] = calculateSize(img, MAX_WIDTH, MAX_HEIGHT);
     const canvas = document.createElement("canvas");
+    canvas.id = 'imagemReduzida'
     canvas.width = newWidth;
     canvas.height = newHeight;
     const ctx = canvas.getContext("2d");
@@ -25,8 +26,8 @@ input.onchange = function (ev) {
     canvas.toBlob(
       (blob) => {
         // Handle the compressed image. es. upload or save in local state
-        displayInfo('Original file', file);
-        displayInfo('Compressed file', blob);
+        // displayInfo('Original file', file);
+        // displayInfo('Compressed file', blob);
       },
       MIME_TYPE,
       QUALITY
@@ -56,11 +57,13 @@ function calculateSize(img, maxWidth, maxHeight) {
 
 // Utility functions for demo purpose
 
+/*
 function displayInfo(label, file) {
   const p = document.createElement('p');
   p.innerText = `${label} - ${readableBytes(file.size)}`;
   document.getElementById('selectedImage').append(p);
 }
+*/
 
 function readableBytes(bytes) {
   const i = Math.floor(Math.log(bytes) / Math.log(1024)),
