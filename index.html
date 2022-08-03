@@ -4,12 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cadastrar chaves</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="style.js"></script>
 </head>
 <body>
-
-    <main>
-        <div>
+    <div id="content">
+        <header id="header"></header>
+        <div id="divCadastro">
             <label for="imobiliaria">Selecione uma Imobiliária</label>
+            <br>
             <select name="imobiliaria" id="imobiliaria">
                 <option value="">Selecione uma imobiliária</option>
                 <option>3AC Imóveis</option>
@@ -115,8 +118,10 @@
                 <option>Zaidan Gestão de Imóveis</option>
             </select>
             <br>
-
+            <br>
             <label for="vistoriador">Vistoriador</label>
+            <br>
+            <br>
             <select id="vistoriador" name="vistoriador" tabindex="-1" aria-hidden="true">
                 <option value="">Selecione o vistoriador</option>
                 <option>Bruno Mendes</option>
@@ -128,37 +133,46 @@
                 <option>Vinicius Fernandes</option>
             </select>
             <br>
-
+            <br>
             <label for="endereco">Endereço do imóvel</label>
+            <br>
             <input type="text" name="endereco" id="endereco" placeholder="Digite o endereço">
             <br>
-
+            <br>
             <label for="tipodevistoria">Tipo de vistoria</label>
             <input type="radio" id="entrada" name="tipodevistoria" value="Entrada" checked>
-            <label for="html">Entrada</label>
+            <label>Entrada</label>
             <input type="radio" id="saida" name="tipodevistoria" value="Saída">
-            <label for="css">Saída</label>
+            <label>Saída</label>
             <br>
-
+            <br>
             <label for="observacao">Observacao:</label>
+            <br>
             <textarea id="observacao" placeholder="Observação"></textarea>
             <br>
-
+            <br>
             <input type="file" id="chaveFoto" onchange='converterImagem()'>
             <br>
             <br>
             <button id="botaoEnviar">Enviar</button>
-        </div>
-        <div id="selectedImage">
-            <h3>Imagem da Chave</h3>
-        </div>
+            <div id="selectedImage">
+                <h3>Imagem da Chave</h3>
+            </div>
 
-    </main>
+            <div id='divPesquisarChave'>
+                <ul data-js="chaves-list"></ul>
+            </div>
+    </div>
+        
+    
 
-    <ul data-js="chaves-list"></ul>
-
-
-
+    <footer>
+        <input type="radio" id="cadastrarChave" name="selecionarPagina" value="cadastrarChave" checked hidden>
+        <label for="cadastrarChave" id="firstLabel">Cadastrar Chave</label>
+        <input type="radio" id="pesquisarChave" name="selecionarPagina" value="pesquisarChave" hidden>
+        <label for="pesquisarChave" id="secondLabel">Pesquisar Chave</label>
+    </footer>
+</div>
 
 
 <script src="canvaResizer.js"></script>
