@@ -10,11 +10,14 @@
 <body>
     <div id="content">
         <header id="header"></header>
+
         <div id="divCadastro">
-            <label for="imobiliaria">Selecione uma Imobiliária</label>
-            <br>
-            <select name="imobiliaria" id="imobiliaria">
-                <option value="">Selecione uma imobiliária</option>
+
+
+        <label>Selecione uma Imobiliária</label>
+        <input list="imobiliaria" name="imobiliaria" type="text">
+        <datalist id="imobiliaria">
+          <option value="">Selecione uma imobiliária</option>
                 <option>3AC Imóveis</option>
                 <option>A P S A Administração</option>
                 <option>Adri's Corretoras de Imóveis</option>
@@ -116,7 +119,15 @@
                 <option>Waldy Rufino Corretor</option>
                 <option>XM2 Soluções Imobiliárias</option>
                 <option>Zaidan Gestão de Imóveis</option>
-            </select>
+        </datalist>  
+        <br><br><br><br>
+
+
+
+
+
+        
+
             <br>
             <br>
             <label for="vistoriador">Vistoriador</label>
@@ -174,7 +185,8 @@
     </footer>
 </div>
 
-
+<!-- Resize Image and Canva JS file
+    ------------------------------------------------------------------------------------------------------------------------ -->
 <script src="canvaResizer.js"></script>
 
 <!-- Swal File Import

@@ -4,7 +4,8 @@ const botaoEnviar = document.getElementById('botaoEnviar')
 let imobiliaria, vistoriador, endereço, tipo, observacao
 
 getFormData = () => {
-    imobiliaria = document.getElementById('imobiliaria').value
+    //imobiliaria = document.getElementById('imobiliaria').value
+    imobiliaria = document.getElementsByName('imobiliaria')[0].value
     vistoriador = document.getElementById('vistoriador').value
     endereço = document.getElementById('endereco').value
     tipo = document.querySelector('input[name="tipodevistoria"]:checked').value
