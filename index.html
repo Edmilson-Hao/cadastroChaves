@@ -162,18 +162,19 @@
             <div id="selectedImage">
                 <h3>Imagem da Chave</h3>
             </div>
+    </div>
+    
+    <div id='divPesquisarChave' hidden>
+        <input type="search" id="searchBar" name="q">
+        <button id="searchButton">Search</button>
 
-            <div id='divPesquisarChave'>
-                <ul data-js="chaves-list"></ul>
-            </div>
+        <ul data-js="chaves-list"></ul>
     </div>
         
     
 
     <footer>
-        <input type="radio" id="cadastrarChave" name="selecionarPagina" value="cadastrarChave" checked hidden>
         <label for="cadastrarChave" id="firstLabel">Cadastrar Chave</label>
-        <input type="radio" id="pesquisarChave" name="selecionarPagina" value="pesquisarChave" hidden>
         <label for="pesquisarChave" id="secondLabel">Pesquisar Chave</label>
     </footer>
 </div>
