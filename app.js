@@ -6,7 +6,7 @@ let imobiliaria, vistoriador, endereço, tipo, observacao
 getFormData = () => {
     //imobiliaria = document.getElementById('imobiliaria').value
     imobiliaria = document.getElementsByName('imobiliaria')[0].value
-    vistoriador = document.getElementById('vistoriador').value
+    vistoriador = document.getElementsByName('vistoriador')[0].value
     endereço = document.getElementById('endereco').value
     tipo = document.querySelector('input[name="tipodevistoria"]:checked').value
     observacao = document.getElementById('observacao').value
