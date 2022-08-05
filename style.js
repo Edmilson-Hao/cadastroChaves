@@ -1,3 +1,3 @@
 if (window.orientation !== undefined) {
-  alert("celular")
+  alert("MOBILE!")
 }

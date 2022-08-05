@@ -8,6 +8,8 @@ const firstLabel = document.getElementById('firstLabel')
 const secondLabel = document.getElementById('secondLabel')
 const searchButton = document.getElementById('searchButton')
 let imobiliaria, vistoriador, endereço, tipo, observacao
+const errorMessageOne = 'Erro ao tentar cadastrar a chave!'
+const errorMessageTwo = 'Chave não encontrada!'
 /*----------------------------------------------------------------------------------------------------------*/
 
 
@@ -22,20 +24,16 @@ getFormData = () => {
     tipo = document.querySelector('input[name="tipodevistoria"]:checked').value
     observacao = document.getElementById('observacao').value
 }
-/*-----------------------------------Reset Form input information-------------------------------------------*/
-
-
-
-
-
 /*----------------------------------------------------------------------------------------------------------*/
+
+
+
+/*-----------------------------------Reset Form input information-------------------------------------------*/
 resetData = () => {
-    document.getElementById('imobiliaria').value = ''
-    document.getElementById('vistoriador').value = ''
+    document.getElementsByName('imobiliaria')[0].value = ''
+    document.getElementsByName('vistoriador')[0].value = ''
     document.getElementById('endereco').value = ''
-    document.querySelector('input[name="tipodevistoria"]:checked').value = ''
     document.getElementById('observacao').value = ''
-    document.getElementById('chaveFoto').value = ''
 }
 /*----------------------------------------------------------------------------------------------------------*/
 
@@ -43,23 +41,26 @@ resetData = () => {
 
 
 
-/*--------------------------------------Send data to firebase-----------------------------------------------*/
-const getDataFromFirebase = () => {
+/*--------------------------------------Get data from firebase-----------------------------------------------*/
+const getDataFromFirebase = searchString => {
 	db.collection('chaves').get()
 		.then( snapshot => {
 			const chavesli = snapshot.docs.reduce((acc, doc) => {
-				acc += `
-					<li>${doc.data().Imobiliária}</li>
-					<li>${doc.data().Endereço}</li>
-					<li>${doc.data().Vistoriador}</li>
-					<li>${doc.data().Tipo}</li>
-					<li>${doc.data().Observação}</li>
-					<li><img src="${doc.data().Foto}"></li>
-					`
+				if (searchString === doc.data().Endereço) {
+					acc += `
+						<li>${doc.data().Imobiliária}</li>
+						<li>${doc.data().Endereço}</li>
+						<li>${doc.data().Vistoriador}</li>
+						<li>${doc.data().Tipo}</li>
+						<li>${doc.data().Observação}</li>
+						<li><img src="${doc.data().Foto}"></li>
+						`
+				}
 				return acc
 			}, '')
 
-			chavesList.innerHTML = chavesli
+			if(chavesli === '') filedSignal(errorMessageTwo)
+			else chavesList.innerHTML = chavesli
 
 		})
 		.catch(err => {
@@ -84,7 +85,7 @@ botaoEnviar.addEventListener('click', e => { //enviar dados
 		Tipo: tipo,
 		Observação: observacao,
 		Foto: foto
-	}).then(successSignal).catch(filedSignal)
+	}).then(successSignal).catch(filedSignal(errorMessageOne))
 
 })
 /*----------------------------------------------------------------------------------------------------------*/
@@ -106,7 +107,7 @@ const converterImagem = () => {
 
 
 
-/*---------------------------------Print Success of Fail Signal to screen-----------------------------------*/
+/*---------------------------------Print Success or Fail Signal to screen-----------------------------------*/
 const successSignal = () => {
     Swal.fire({
         position: 'center',
@@ -116,11 +117,11 @@ const successSignal = () => {
         timer: 1500
     })
 }
-const filedSignal = () => {
+const filedSignal = (message) => {
     Swal.fire({
         position: 'center',
         icon: 'error',
-        title: 'Erro ao tentar cadastrar a chave!',
+        title: message,
         showConfirmButton: false,
         timer: 1500
     })
@@ -147,7 +148,7 @@ secondLabel.addEventListener('click', e => {
 
 
 
-/*----------------------------------Get search string and what search button--------------------------------*/
+/*--------------------------------Get search string and whatch search button--------------------------------*/
 const getSearchString = e => {
 	const searchString = document.getElementById('searchBar').value
 	console.log(searchString)
@@ -166,6 +167,6 @@ searchButton.addEventListener('click',  getSearchString)
 
 /*---------------------------------------Generate Key List HTML---------------------------------------------*/
 const generateKeyList = searchString => {
-	alert(searchString)
+	getDataFromFirebase(searchString)
 }
 /*----------------------------------------------------------------------------------------------------------*/
