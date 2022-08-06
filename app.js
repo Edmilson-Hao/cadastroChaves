@@ -46,7 +46,8 @@ const getDataFromFirebase = searchString => {
 	db.collection('chaves').get()
 		.then( snapshot => {
 			const chavesli = snapshot.docs.reduce((acc, doc) => {
-				if (searchString === doc.data().Endereço) {
+				//if (searchString === doc.data().Endereço) {
+                                if (doc.data().Endereço.includes(searchString)) {
 					acc += `
 						<li>${doc.data().Imobiliária}</li>
 						<li>${doc.data().Endereço}</li>
