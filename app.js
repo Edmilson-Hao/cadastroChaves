@@ -17,7 +17,7 @@ const errorMessageTwo = 'Chave não encontrada!'
 
 
 /*------------------------------------Write Form data to Variables------------------------------------------*/
-getFormData = () => {
+const getFormData = () => {
     imobiliaria = document.getElementsByName('imobiliaria')[0].value
     vistoriador = document.getElementsByName('vistoriador')[0].value
     endereço = document.getElementById('endereco').value
@@ -29,7 +29,7 @@ getFormData = () => {
 
 
 /*-----------------------------------Reset Form input information-------------------------------------------*/
-resetData = () => {
+const resetData = () => {
     document.getElementsByName('imobiliaria')[0].value = ''
     document.getElementsByName('vistoriador')[0].value = ''
     document.getElementById('endereco').value = ''
@@ -87,7 +87,7 @@ botaoEnviar.addEventListener('click', e => { //enviar dados
 		Tipo: tipo,
 		Observação: observacao,
 		Foto: foto
-	}).then(successSignal).catch(filedSignal(errorMessageOne))
+	}).then(successSignal).then(resetData()).catch(filedSignal(errorMessageOne))
 
 })
 /*----------------------------------------------------------------------------------------------------------*/
