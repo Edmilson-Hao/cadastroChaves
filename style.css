@@ -63,6 +63,7 @@ footer label:hover, footer label:active {
     border: 1px solid black;
 }
 
-#imobiliaria, #vistoriador, #endereco, #observacao, #botaoEnviar {
-    width: 90%;
+.input{
+    width: 95%;
+    align-self: center;
 }

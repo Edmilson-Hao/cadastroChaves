@@ -43,11 +43,12 @@ resetData = () => {
 
 /*--------------------------------------Get data from firebase-----------------------------------------------*/
 const getDataFromFirebase = searchString => {
+	chavesList.innerHTML = ''
 	db.collection('chaves').get()
 		.then( snapshot => {
 			const chavesli = snapshot.docs.reduce((acc, doc) => {
 				//if (searchString === doc.data().Endereço) {
-                                if (doc.data().Endereço.includes(searchString)) {
+				if (doc.data().Endereço.toLowerCase().includes(searchString.toLowerCase())) {
 					acc += `
 						<li>${doc.data().Imobiliária}</li>
 						<li>${doc.data().Endereço}</li>
