@@ -1,15 +1,21 @@
 /*-------------------------------------------Variable declaration-------------------------------------------*/
-const chavesList = document.querySelector('[data-js="chaves-list"]')
 const db = firebase.firestore()
+
+const chavesList = document.getElementById('chavesList')
 const botaoEnviar = document.getElementById('botaoEnviar')
 const divCadastro = document.getElementById('divCadastro')
 const divPesquisarChave = document.getElementById('divPesquisarChave')
 const firstLabel = document.getElementById('firstLabel')
 const secondLabel = document.getElementById('secondLabel')
+const searchBar = document.getElementById('searchBar')
 const searchButton = document.getElementById('searchButton')
-let imobiliaria, vistoriador, endereço, tipo, observacao
+
+//mensagens
 const errorMessageOne = 'Erro ao tentar cadastrar a chave!'
 const errorMessageTwo = 'Chave não encontrada!'
+
+//dados
+let imobiliaria, vistoriador, endereço, tipo, observacao, dataEnvio
 /*----------------------------------------------------------------------------------------------------------*/
 
 
@@ -23,6 +29,7 @@ const getFormData = () => {
     endereço = document.getElementById('endereco').value
     tipo = document.querySelector('input[name="tipodevistoria"]:checked').value
     observacao = document.getElementById('observacao').value
+    dataEnvio = new Date().toLocaleDateString("pt-BR")
 }
 /*----------------------------------------------------------------------------------------------------------*/
 
@@ -50,18 +57,22 @@ const getDataFromFirebase = searchString => {
 				//if (searchString === doc.data().Endereço) {
 				if (doc.data().Endereço.toLowerCase().includes(searchString.toLowerCase())) {
 					acc += `
-						<p>Imobiliária:
-						<li>${doc.data().Imobiliária}</li></p>
-						<p>Endereço:</p>
-						<li>${doc.data().Endereço}</li>
-						<p>Vistoriador:</p>
-						<li>${doc.data().Vistoriador}</li>
-						<p>Tipo da vistoria:</p>
-						<li>${doc.data().Tipo}</li>
-						<p>Observação:</p>
-						<li>${doc.data().Observação}</li>
+						<div class='resultadoPesquisa input'>
+						<p><li>Imobiliária:
+						${doc.data().Imobiliária}</p></li>
+						<p><li>Endereço:
+						${doc.data().Endereço}</p></li>
+						<p><li>Vistoriador:
+						${doc.data().Vistoriador}</p></li>
+						<p><li>Tipo da vistoria:
+						${doc.data().Tipo}</p></li>
+						<p><li>Observação:
+						${doc.data().Observação}</p></li>
+						<p><li>Data de entrega:
+						${doc.data().Data}</p></li>
 						<br>
 						<img class='fotoDeResultado' src="${doc.data().Foto}">
+						</div>
 						`
 				}
 				return acc
@@ -92,7 +103,8 @@ botaoEnviar.addEventListener('click', e => { //enviar dados
 		Endereço: endereço,
 		Tipo: tipo,
 		Observação: observacao,
-		Foto: foto
+		Foto: foto,
+		Data: dataEnvio
 	}).then(successSignal).then(resetData()).catch(filedSignal(errorMessageOne))
 
 })
@@ -177,4 +189,14 @@ searchButton.addEventListener('click',  getSearchString)
 const generateKeyList = searchString => {
 	getDataFromFirebase(searchString)
 }
+/*----------------------------------------------------------------------------------------------------------*/
+
+
+
+
+
+/*---------------------------------------Watch for Enter on Search Bar--------------------------------------*/
+searchBar.addEventListener('keypress', e => {
+	if (e.key === 'Enter')searchButton.click()
+})
 /*----------------------------------------------------------------------------------------------------------*/
