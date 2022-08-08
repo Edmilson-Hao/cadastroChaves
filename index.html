@@ -14,9 +14,7 @@
     <div id="content">
         <header id="header"></header>
 
-        <div id="divCadastro">
-
-
+        <div class="container" id="divCadastro">
             <input class="input form-control" list="imobiliaria" name="imobiliaria" type="text" placeholder="Selecione uma imobiliária">
             <datalist id="imobiliaria">
                 <option value="">Selecione uma imobiliária</option>
@@ -154,14 +152,15 @@
 
             <div id="selectedImage"></div>
             <button class="input btn btn-success" id="botaoEnviar">Enviar</button>
-            
+            <br><br>            
     </div>
     
-    <div id='divPesquisarChave' hidden>
-        <input class="input form-control" type="search" id="searchBar" name="q">
+    <div class="container" id='divPesquisarChave' hidden>
+        <input class="input form-control" type="search" id="searchBar" placeholder="Digite o endereço">
         <br><br>
-        <button class="input btn btn-success" id="searchButton">Pesquisar</button>
 
+        <button class="input btn btn-success" id="searchButton" type="submit">Pesquisar</button>
+        <br><br>
         <ul data-js="chaves-list"></ul>
     </div>
         

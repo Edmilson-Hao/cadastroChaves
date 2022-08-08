@@ -18,7 +18,7 @@ header {
     height: 5vh;
 }
 
-#divCadastro {
+.container {
     width: 50vw;
     align-self: center;
     padding: 0 0 0 2.5vw;
@@ -66,4 +66,16 @@ footer label:hover, footer label:active {
 .input{
     width: 95%;
     align-self: center;
+}
+
+canvas{
+    margin-left: -5%;
+    width: 100%;
+    align-self: center;    
+}
+
+.fotoDeResultado{
+    margin-left: -5%;
+    width: 100%;
+    align-self: center; 
 }

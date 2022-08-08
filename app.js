@@ -50,12 +50,18 @@ const getDataFromFirebase = searchString => {
 				//if (searchString === doc.data().Endereço) {
 				if (doc.data().Endereço.toLowerCase().includes(searchString.toLowerCase())) {
 					acc += `
-						<li>${doc.data().Imobiliária}</li>
+						<p>Imobiliária:
+						<li>${doc.data().Imobiliária}</li></p>
+						<p>Endereço:</p>
 						<li>${doc.data().Endereço}</li>
+						<p>Vistoriador:</p>
 						<li>${doc.data().Vistoriador}</li>
+						<p>Tipo da vistoria:</p>
 						<li>${doc.data().Tipo}</li>
+						<p>Observação:</p>
 						<li>${doc.data().Observação}</li>
-						<li><img src="${doc.data().Foto}"></li>
+						<br>
+						<img class='fotoDeResultado' src="${doc.data().Foto}">
 						`
 				}
 				return acc
