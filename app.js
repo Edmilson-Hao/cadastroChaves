@@ -163,9 +163,11 @@ const failedSignal = (message) => {
 firstLabel.addEventListener('click', e => {
     divCadastro.hidden = false
     divPesquisarChave.hidden = true
+    document.getElementById('pageTitle').innerHTML = 'Cadastrar Chave'
 })
 
 secondLabel.addEventListener('click', e => {
+	document.getElementById('pageTitle').innerHTML = 'Pesquisar Chave'
     divCadastro.hidden = true
     divPesquisarChave.hidden = false
 })
