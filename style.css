@@ -29,6 +29,21 @@ header {
     text-align: center;
 }
 
+.chaveFoto {
+    overflow: hidden
+}
+
+footer  label{
+    display: inline-block;
+    color: white;
+    padding: 1vh 0;
+    width: 90vw;
+    text-align: center;
+    font-weight: bold;
+    background-color: gray;
+    border: 1px solid white;
+}
+
 footer {
     position: relative;
     bottom: 0;
@@ -39,16 +54,7 @@ footer {
     justify-content: end;
 }
 
-footer label{
-    display: inline-block;
-    color: white;
-    padding: 1vh 0;
-    width: 50%;
-    text-align: center;
-    font-weight: bold;
-    background-color: gray;
-    border: 1px solid white;
-}
+
 #firstLabel{
     border-radius: 10px 0 0 15px;
 }
@@ -72,7 +78,8 @@ footer label:hover, footer label:active {
 canvas{
     margin-left: -5%;
     width: 100%;
-    align-self: center;    
+    align-self: center;   
+    border-radius: 15px; 
 }
 
 .resultadoPesquisa {
@@ -92,4 +99,27 @@ canvas{
     display: block;
     margin: 0 auto;
     border-radius: 15px;
+}
+
+@media only screen and (max-width: 768px) {
+    #content{
+        width: 90vw;
+        padding: 0;
+        overflow: hidden;
+    }
+    .input, #chaveFoto{
+        display: inline-block;
+        position: relative;
+        margin: 0 auto;
+        left: -15vw;
+        width: 75vw;
+    }
+    .radio{
+        display: inline-block;
+        position: relative;
+        left: -15vw;
+    }
+    footer{
+        width: 100%;
+    }
 }

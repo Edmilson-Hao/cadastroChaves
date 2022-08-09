@@ -57,6 +57,7 @@ const getDataFromFirebase = searchString => {
 				//if (searchString === doc.data().Endereço) {
 				if (doc.data().Endereço.toLowerCase().includes(searchString.toLowerCase())) {
 					acc += `
+					<br>
 						<div class='resultadoPesquisa input'>
 						<p><li>Imobiliária:
 						${doc.data().Imobiliária}</p></li>
@@ -73,12 +74,13 @@ const getDataFromFirebase = searchString => {
 						<br>
 						<img class='fotoDeResultado' src="${doc.data().Foto}">
 						</div>
+						<br>
 						`
 				}
 				return acc
 			}, '')
 
-			if(chavesli === '') filedSignal(errorMessageTwo)
+			if(chavesli === '') failedSignal(errorMessageTwo)
 			else chavesList.innerHTML = chavesli
 
 		})
@@ -105,7 +107,12 @@ botaoEnviar.addEventListener('click', e => { //enviar dados
 		Observação: observacao,
 		Foto: foto,
 		Data: dataEnvio
-	}).then(successSignal).then(resetData()).catch(filedSignal(errorMessageOne))
+	})
+	.then(() => {
+		successSignal
+		resetData
+	})
+	.catch(failedSignal(errorMessageOne))
 
 })
 /*----------------------------------------------------------------------------------------------------------*/
@@ -137,7 +144,7 @@ const successSignal = () => {
         timer: 1500
     })
 }
-const filedSignal = (message) => {
+const failedSignal = (message) => {
     Swal.fire({
         position: 'center',
         icon: 'error',
