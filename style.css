@@ -34,7 +34,8 @@ header {
 
 .container {
     width: 50vw;
-    align-self: center;
+    display: block;
+    margin: 0 auto;
     padding: 0 0 0 2.5vw;
 }
 
@@ -46,7 +47,7 @@ header {
     overflow: hidden
 }
 
-footer  label{
+footer > label{
     display: inline-block;
     color: white;
     padding: 1vh 0;

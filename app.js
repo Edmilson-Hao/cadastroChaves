@@ -109,10 +109,12 @@ botaoEnviar.addEventListener('click', e => { //enviar dados
 		Data: dataEnvio
 	})
 	.then(() => {
-		successSignal
-		resetData
+		successSignal()
+		resetData()
 	})
-	.catch(failedSignal(errorMessageOne))
+	.catch(err => {
+		failedSignal(errorMessageOne)
+	})
 
 })
 /*----------------------------------------------------------------------------------------------------------*/
@@ -144,7 +146,7 @@ const successSignal = () => {
         timer: 1500
     })
 }
-const failedSignal = (message) => {
+const failedSignal = message => {
     Swal.fire({
         position: 'center',
         icon: 'error',
