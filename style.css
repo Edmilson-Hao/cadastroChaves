@@ -89,6 +89,16 @@ footer label:hover, footer label:active {
     align-self: center;
 }
 
+#loading{
+    position: absolute;
+    display: block;
+    background-color: black;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+}
+
 canvas{
     margin-left: -5%;
     width: 100%;
