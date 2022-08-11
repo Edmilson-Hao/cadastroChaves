@@ -32,6 +32,9 @@ input.onchange = function (ev) {
       MIME_TYPE,
       QUALITY
     );
+    if(document.getElementsByTagName('canvas')[0] != undefined){
+      document.getElementsByTagName('canvas')[0].remove()
+    }
     document.getElementById("selectedImage").append(canvas);
   };
 };

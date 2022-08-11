@@ -6,7 +6,7 @@ body {
 }
 #logo{
     display: block;
-    margin: 1vh auto;
+    margin: 2vh auto 1vh auto;
 }
 
 #content{
@@ -47,27 +47,27 @@ header {
     overflow: hidden
 }
 
+footer {
+    bottom: 0;
+    padding: 0 0 1px 3px;
+    margin: 0 auto;
+    display: block;
+    width: 50vw;
+    display: inline-block;
+    justify-content: end;
+}
+
 footer > label{
     display: inline-block;
     color: white;
     padding: 1vh 0;
-    width: 90vw;
+    width: 49%;
+    margin: 0 auto;
     text-align: center;
     font-weight: bold;
     background-color: gray;
     border: 1px solid white;
 }
-
-footer {
-    position: relative;
-    bottom: 0;
-    padding: 0;
-    display: block;
-    width: 50vw;
-    display: flex;
-    justify-content: end;
-}
-
 
 #firstLabel{
     border-radius: 10px 0 0 15px;
