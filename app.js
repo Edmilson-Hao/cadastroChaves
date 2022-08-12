@@ -49,12 +49,40 @@ const resetData = () => {
 
 
 /*--------------------------------------Get data from firebase-----------------------------------------------*/
+/*Generating array
+let fbArray = []
+db.collection('chaves').get()
+		
+.then( snapshot => {
+    const chavesli = snapshot.docs.reduce((acc, doc) => {
+        let docArray = {
+            Imobiliária: doc.data().Imobiliária,
+            Endereço: doc.data().Endereço,
+            Vistoriador: doc.data().Vistoriador,
+            Tipodavistoria: doc.data().Tipo,
+            Observação: doc.data().Observação,
+            Datadeentrega: doc.data().Data,
+            Imagem: doc.data().Foto
+        }
+        fbArray.push(docArray)
+	}, '')
+
+	console.log(fbArray)
+
+})
+*/
+/*reverse sorting
+fbArray.sort((a, b) => b.Datadeentrega.split('/').reverse().join('') - a.Datadeentrega.split('/').reverse().join(''))
+*/
 const getDataFromFirebase = searchString => {
+
+	document.getElementById('loading').style.display = "block";
+
 	chavesList.innerHTML = ''
 	db.collection('chaves').get()
 		.then( snapshot => {
 			const chavesli = snapshot.docs.reduce((acc, doc) => {
-				//if (searchString === doc.data().Endereço) {
+				
 				if (doc.data().Endereço.toLowerCase().includes(searchString.toLowerCase())) {
 					acc += `
 					<br>
@@ -80,11 +108,14 @@ const getDataFromFirebase = searchString => {
 				return acc
 			}, '')
 
+			document.getElementById('loading').style.display = "none";
+
 			if(chavesli === '') failedSignal(errorMessageTwo)
 			else chavesList.innerHTML = chavesli
 
 		})
 		.catch(err => {
+			document.getElementById('loading').style.display = "none";
 			console.log(err.message)
 		}
 	)
@@ -95,10 +126,8 @@ const getDataFromFirebase = searchString => {
 
 
 
-/*---------------------------------------Watch for Send Button event----------------------------------------*/
-botaoEnviar.addEventListener('click', e => { //enviar dados
-	getFormData()
-	converterImagem()
+/*--------------------------------------Send data to firebase-----------------------------------------------*/
+const sendDataToFirebase = () => {
 	db.collection('chaves').add({
 		Imobiliária: imobiliaria,
 		Vistoriador: vistoriador,
@@ -109,12 +138,29 @@ botaoEnviar.addEventListener('click', e => { //enviar dados
 		Data: dataEnvio
 	})
 	.then(() => {
+		document.getElementById('loading').style.display = "none";
 		successSignal()
 		resetData()
 	})
 	.catch(err => {
 		failedSignal(errorMessageOne)
 	})
+}
+/*----------------------------------------------------------------------------------------------------------*/
+
+
+
+
+
+/*---------------------------------------Watch for Send Button event----------------------------------------*/
+botaoEnviar.addEventListener('click', e => { //enviar dados
+	getFormData()
+
+	converterImagem()
+	
+	document.getElementById('loading').style.display = "block";
+
+	sendDataToFirebase()
 
 })
 /*----------------------------------------------------------------------------------------------------------*/
