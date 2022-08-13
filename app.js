@@ -16,6 +16,7 @@ const errorMessageTwo = 'Chave não encontrada!'
 
 //dados
 let imobiliaria, vistoriador, endereço, tipo, observacao, dataEnvio
+let docArray = []
 /*----------------------------------------------------------------------------------------------------------*/
 
 
@@ -49,36 +50,46 @@ const resetData = () => {
 
 
 /*--------------------------------------Get data from firebase-----------------------------------------------*/
-/*Generating array
-let fbArray = []
-db.collection('chaves').get()
-		
-.then( snapshot => {
-    const chavesli = snapshot.docs.reduce((acc, doc) => {
-        let docArray = {
-            Imobiliária: doc.data().Imobiliária,
-            Endereço: doc.data().Endereço,
-            Vistoriador: doc.data().Vistoriador,
-            Tipodavistoria: doc.data().Tipo,
-            Observação: doc.data().Observação,
-            Datadeentrega: doc.data().Data,
-            Imagem: doc.data().Foto
-        }
-        fbArray.push(docArray)
-	}, '')
+const getDataFromFirebase = () => {
 
-	console.log(fbArray)
+	db.collection('chaves').get()
 
-})
-*/
-/*reverse sorting
-fbArray.sort((a, b) => b.Datadeentrega.split('/').reverse().join('') - a.Datadeentrega.split('/').reverse().join(''))
-*/
-const getDataFromFirebase = searchString => {
+	.then( snapshot => {
+    	const chavesli = snapshot.docs.reduce((acc, doc) => {
+	        let docData = {
+	            Imobiliária: doc.data().Imobiliária,
+	            Endereço: doc.data().Endereço,
+	            Vistoriador: doc.data().Vistoriador,
+	            Tipodavistoria: doc.data().Tipo,
+	            Observação: doc.data().Observação,
+	            Datadeentrega: doc.data().Data,
+	            Imagem: doc.data().Foto
+	        }
+        docArray.push(docData)
+		}, '')
+	
+	docArray.sort((a, b) => b.Datadeentrega.split('/').reverse().join('') - a.Datadeentrega.split('/').reverse().join(''))
+	
+	console.log(docArray)
+	})
+}
+
+
+
+
+
+
+/*
+	chavesList.innerHTML = ''
+
+
+
+
 
 	document.getElementById('loading').style.display = "block";
 
-	chavesList.innerHTML = ''
+
+	
 	db.collection('chaves').get()
 		.then( snapshot => {
 			const chavesli = snapshot.docs.reduce((acc, doc) => {
