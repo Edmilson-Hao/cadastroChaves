@@ -9,6 +9,7 @@ const firstLabel = document.getElementById('firstLabel')
 const secondLabel = document.getElementById('secondLabel')
 const searchBar = document.getElementById('searchBar')
 const searchButton = document.getElementById('searchButton')
+let searchString = ''
 
 //mensagens
 const errorMessageOne = 'Erro ao tentar cadastrar a chave!'
@@ -16,6 +17,7 @@ const errorMessageTwo = 'Chave não encontrada!'
 
 //dados
 let imobiliaria, vistoriador, endereço, tipo, observacao, dataEnvio
+let newArray = []
 let docArray = []
 /*----------------------------------------------------------------------------------------------------------*/
 
@@ -48,8 +50,8 @@ const resetData = () => {
 
 
 
-
-/*--------------------------------------Get data from firebase-----------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------Get data from firebase----------------------------------------------*/
 const getDataFromFirebase = () => {
 
 	db.collection('chaves').get()
@@ -71,65 +73,58 @@ const getDataFromFirebase = () => {
 	docArray.sort((a, b) => b.Datadeentrega.split('/').reverse().join('') - a.Datadeentrega.split('/').reverse().join(''))
 	
 	console.log(docArray)
+
+	filterKeys()
 	})
 }
+/*----------------------------------------------------------------------------------------------------------*/
 
 
 
 
 
+/*--------------------------------------Search key on firebase array----------------------------------------*/
+const filterKeys = () => {
+	newArray = []
 
-/*
+	docArray.forEach((item, index) => {
+    	if(docArray[index].Endereço.toLowerCase().includes(document.getElementById('searchBar').value.toLowerCase())) newArray.push(docArray[index])
+	})
+	console.log(newArray)
+	printSearchKeys()
+}
+/*----------------------------------------------------------------------------------------------------------*/
+
+
+
+
+
+/*---------------------------------------Print Search Filtered Keys-----------------------------------------*/
+const printSearchKeys = () => {
 	chavesList.innerHTML = ''
 
-
-
-
-
-	document.getElementById('loading').style.display = "block";
-
-
-	
-	db.collection('chaves').get()
-		.then( snapshot => {
-			const chavesli = snapshot.docs.reduce((acc, doc) => {
-				
-				if (doc.data().Endereço.toLowerCase().includes(searchString.toLowerCase())) {
-					acc += `
-					<br>
-						<div class='resultadoPesquisa input'>
-						<p><li>Imobiliária:
-						${doc.data().Imobiliária}</p></li>
-						<p><li>Endereço:
-						${doc.data().Endereço}</p></li>
-						<p><li>Vistoriador:
-						${doc.data().Vistoriador}</p></li>
-						<p><li>Tipo da vistoria:
-						${doc.data().Tipo}</p></li>
-						<p><li>Observação:
-						${doc.data().Observação}</p></li>
-						<p><li>Data de entrega:
-						${doc.data().Data}</p></li>
-						<br>
-						<img class='fotoDeResultado' src="${doc.data().Foto}">
-						</div>
-						<br>
-						`
-				}
-				return acc
-			}, '')
-
-			document.getElementById('loading').style.display = "none";
-
-			if(chavesli === '') failedSignal(errorMessageTwo)
-			else chavesList.innerHTML = chavesli
-
-		})
-		.catch(err => {
-			document.getElementById('loading').style.display = "none";
-			console.log(err.message)
-		}
-	)
+	newArray.forEach((item, index) => {
+		chavesList.innerHTML += `
+								<br><div class='resultadoPesquisa input'>
+									<p><li>Imobiliária:
+									${newArray[index].Imobiliária}</p></li>
+									<p><li>Endereço:
+									${newArray[index].Endereço}</p></li>
+									<p><li>Vistoriador:
+									${newArray[index].Vistoriador}</p></li>
+									<p><li>Tipo da vistoria:
+									${newArray[index].Tipodavistoria}</p></li>
+									<p><li>Observação:
+									${newArray[index].Observação}</p></li>
+									<p><li>Data de entrega:
+									${newArray[index].Datadeentrega}</p></li>
+									<br>
+									<img class='fotoDeResultado' src="${newArray[index].Imagem}">
+								</div><br>
+								`
+	})
+	document.getElementById('loading').style.display = "none";
+	if(newArray.length === 0) failedSignal(errorMessageTwo)
 }
 /*----------------------------------------------------------------------------------------------------------*/
 
@@ -236,27 +231,20 @@ secondLabel.addEventListener('click', e => {
 
 
 
-/*--------------------------------Get search string and whatch search button--------------------------------*/
-const getSearchString = e => {
-	const searchString = document.getElementById('searchBar').value
-	console.log(searchString)
-    
-    generateKeyList(searchString)
-}
-
-
-
-searchButton.addEventListener('click',  getSearchString)
+/*-----------------------------------------Get search string------------------------------------------------*/
+const getSearchString = () => searchString = document.getElementById('searchBar').value
 /*----------------------------------------------------------------------------------------------------------*/
 
 
 
 
 
-/*---------------------------------------Generate Key List HTML---------------------------------------------*/
-const generateKeyList = searchString => {
-	getDataFromFirebase(searchString)
-}
+/*------------------------------------------------Whatch search button--------------------------------------*/
+searchButton.addEventListener('click',  e => {
+	document.getElementById('loading').style.display = "block";
+	getSearchString()
+	generateKeyList(searchString)
+})
 /*----------------------------------------------------------------------------------------------------------*/
 
 
@@ -267,4 +255,12 @@ const generateKeyList = searchString => {
 searchBar.addEventListener('keypress', e => {
 	if (e.key === 'Enter')searchButton.click()
 })
+/*----------------------------------------------------------------------------------------------------------*/
+
+
+
+
+
+/*---------------------------------------Generate Key List HTML---------------------------------------------*/
+const generateKeyList = searchString => getDataFromFirebase(searchString)
 /*----------------------------------------------------------------------------------------------------------*/
