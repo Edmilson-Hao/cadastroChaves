@@ -267,3 +267,5 @@ searchBar.addEventListener('keypress', e => {
 /*---------------------------------------Generate Key List HTML---------------------------------------------*/
 const generateKeyList = searchString => getDataFromFirebase(searchString)
 /*----------------------------------------------------------------------------------------------------------*/
+
+alert("Quando em rede móvel, evite fazer muitas pesquisas para economizar dados móveis!")
