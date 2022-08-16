@@ -10,6 +10,7 @@ const secondLabel = document.getElementById('secondLabel')
 const searchBar = document.getElementById('searchBar')
 const searchButton = document.getElementById('searchButton')
 let searchString = ''
+let appState = false
 
 //mensagens
 const errorMessageOne = 'Erro ao tentar cadastrar a chave!'
@@ -44,90 +45,6 @@ const resetData = () => {
     document.getElementsByName('vistoriador')[0].value = ''
     document.getElementById('endereco').value = ''
     document.getElementById('observacao').value = ''
-}
-/*----------------------------------------------------------------------------------------------------------*/
-
-
-
-
-/*----------------------------------------------------------------------------------------------------------*/
-/*--------------------------------------Get data from firebase----------------------------------------------*/
-const getDataFromFirebase = () => {
-if(newArray.length === 0){
-	db.collection('chaves').get()
-
-	.then( snapshot => {
-    	const chavesli = snapshot.docs.reduce((acc, doc) => {
-	        let docData = {
-	            Imobiliária: doc.data().Imobiliária,
-	            Endereço: doc.data().Endereço,
-	            Vistoriador: doc.data().Vistoriador,
-	            Tipodavistoria: doc.data().Tipo,
-	            Observação: doc.data().Observação,
-	            Datadeentrega: doc.data().Data,
-	            Imagem: doc.data().Foto
-	        }
-        docArray.push(docData)
-		}, '')
-	
-	docArray.sort((a, b) => b.Datadeentrega.split('/').reverse().join('') - a.Datadeentrega.split('/').reverse().join(''))
-	
-	console.log(docArray)
-
-	filterKeys()
-	})
-} else {
-	filterKeys()
-}
-}
-/*----------------------------------------------------------------------------------------------------------*/
-
-
-
-
-
-/*--------------------------------------Search key on firebase array----------------------------------------*/
-const filterKeys = () => {
-	newArray = []
-
-	docArray.forEach((item, index) => {
-    	if(docArray[index].Endereço.toLowerCase().includes(document.getElementById('searchBar').value.toLowerCase())) newArray.push(docArray[index])
-	})
-	console.log(newArray)
-	printSearchKeys()
-}
-/*----------------------------------------------------------------------------------------------------------*/
-
-
-
-
-
-/*---------------------------------------Print Search Filtered Keys-----------------------------------------*/
-const printSearchKeys = () => {
-	chavesList.innerHTML = ''
-
-	newArray.forEach((item, index) => {
-		chavesList.innerHTML += `
-								<br><div class='resultadoPesquisa input'>
-									<p><li>Imobiliária:
-									${newArray[index].Imobiliária}</p></li>
-									<p><li>Endereço:
-									${newArray[index].Endereço}</p></li>
-									<p><li>Vistoriador:
-									${newArray[index].Vistoriador}</p></li>
-									<p><li>Tipo da vistoria:
-									${newArray[index].Tipodavistoria}</p></li>
-									<p><li>Observação:
-									${newArray[index].Observação}</p></li>
-									<p><li>Data de entrega:
-									${newArray[index].Datadeentrega}</p></li>
-									<br>
-									<img class='fotoDeResultado' src="${newArray[index].Imagem}">
-								</div><br>
-								`
-	})
-	document.getElementById('loading').style.display = "none";
-	if(newArray.length === 0) failedSignal(errorMessageTwo)
 }
 /*----------------------------------------------------------------------------------------------------------*/
 
@@ -234,27 +151,12 @@ secondLabel.addEventListener('click', e => {
 
 
 
-/*-----------------------------------------Get search string------------------------------------------------*/
-const getSearchString = () => searchString = document.getElementById('searchBar').value
-/*----------------------------------------------------------------------------------------------------------*/
-
-
-
-
-
-/*------------------------------------------------Whatch search button--------------------------------------*/
+/*-------------------------Whatch search button and Enter on Search Bar-------------------------------------*/
 searchButton.addEventListener('click',  e => {
-	document.getElementById('loading').style.display = "block";
 	getSearchString()
 	generateKeyList(searchString)
 })
-/*----------------------------------------------------------------------------------------------------------*/
 
-
-
-
-
-/*---------------------------------------Watch for Enter on Search Bar--------------------------------------*/
 searchBar.addEventListener('keypress', e => {
 	if (e.key === 'Enter')searchButton.click()
 })
@@ -264,6 +166,97 @@ searchBar.addEventListener('keypress', e => {
 
 
 
+/*-----------------------------------------Get search string------------------------------------------------*/
+const getSearchString = () => searchString = document.getElementById('searchBar').value
+/*----------------------------------------------------------------------------------------------------------*/
+
+
+
+
+
 /*---------------------------------------Generate Key List HTML---------------------------------------------*/
-const generateKeyList = searchString => getDataFromFirebase(searchString)
+const generateKeyList = searchString => appState === false ? getDataFromFirebase(searchString) : filterKeys()
+/*----------------------------------------------------------------------------------------------------------*/
+
+
+
+
+
+/*--------------------------------------Get data from firebase----------------------------------------------*/
+const getDataFromFirebase = () => {
+	document.getElementById('loading').style.display = "block";
+
+	db.collection('chaves').get()
+
+	.then( snapshot => {
+    	const chavesli = snapshot.docs.reduce((acc, doc) => {
+	        let docData = {
+	            Imobiliária: doc.data().Imobiliária,
+	            Endereço: doc.data().Endereço,
+	            Vistoriador: doc.data().Vistoriador,
+	            Tipodavistoria: doc.data().Tipo,
+	            Observação: doc.data().Observação,
+	            Datadeentrega: doc.data().Data,
+	            Imagem: doc.data().Foto
+	        }
+        docArray.push(docData)
+		}, '')
+	
+	docArray.sort((a, b) => b.Datadeentrega.split('/').reverse().join('') - a.Datadeentrega.split('/').reverse().join(''))
+	
+	console.log(docArray)
+
+	filterKeys()
+	appState = true
+	})
+}
+/*----------------------------------------------------------------------------------------------------------*/
+
+
+
+
+
+/*--------------------------------------Search key on firebase array----------------------------------------*/
+const filterKeys = () => {
+	newArray = []
+
+	docArray.forEach((item, index) => {
+    	if(docArray[index].Endereço.toLowerCase().includes(document.getElementById('searchBar').value.toLowerCase())) newArray.push(docArray[index])
+	})
+	console.log(newArray)
+	printSearchKeys()
+}
+/*----------------------------------------------------------------------------------------------------------*/
+
+
+
+
+
+/*---------------------------------------Print Search Filtered Keys-----------------------------------------*/
+const printSearchKeys = () => {
+	chavesList.innerHTML = ''
+
+	newArray.forEach((item, index) => {
+		chavesList.innerHTML += `
+								<br><div class='resultadoPesquisa input'>
+									<p><li>Imobiliária:
+									${newArray[index].Imobiliária}</p></li>
+									<p><li>Endereço:
+									${newArray[index].Endereço}</p></li>
+									<p><li>Vistoriador:
+									${newArray[index].Vistoriador}</p></li>
+									<p><li>Tipo da vistoria:
+									${newArray[index].Tipodavistoria}</p></li>
+									<p><li>Observação:
+									${newArray[index].Observação}</p></li>
+									<p><li>Data de entrega:
+									${newArray[index].Datadeentrega}</p></li>
+									<br>
+									<img class='fotoDeResultado' src="${newArray[index].Imagem}">
+								</div><br>
+								`
+	})
+	document.getElementById('loading').style.display = "none";
+	if(newArray.length === 0) failedSignal(errorMessageTwo)
+}
 /*----------------------------------------------------------------------------------------------------------*/
