@@ -243,7 +243,7 @@ const printSearchKeys = () => {
 									${newArray[index].Imobiliária}</p></li>
 									<p><li>Endereço:
 									${newArray[index].Endereço}</p></li>
-									<p><li>Vistoriador:
+									<p><li>Entregue por:
 									${newArray[index].Vistoriador}</p></li>
 									<p><li>Tipo da vistoria:
 									${newArray[index].Tipodavistoria}</p></li>
