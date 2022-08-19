@@ -185,11 +185,8 @@ const generateKeyList = searchString => appState === false ? getDataFromFirebase
 
 
 
-/*
-db.collection("fotos").where("FotoID", "==", ###).get().then(e => {
-    console.log(e.docs[0].data())
-})
-*/
+
+
 /*--------------------------------------Get data from firebase----------------------------------------------*/
 const getDataFromFirebase = () => {
 	document.getElementById('loading').style.display = "block";
@@ -260,8 +257,9 @@ const printSearchKeys = () => {
 									<p><li>Data de entrega:
 									${newArray[index].Datadeentrega}</p></li>
 									<br>
-									<button type="button" class="btn btn-light" onclick="getFirebasePicture(${newArray[index].timeStamp})">Abrir foto</button>
-									<img class='fotoDeResultado' src="${newArray[index].Imagem}">
+									<img class='fotoDeResultado' src="" id="${newArray[index].timeStamp}">
+									<button type="button" class="input btn btn-light" style='margin-left: 25%; border: 1px solid black; background-colo: rgba(0,0,0,.5)' onclick="getFirebasePicture(${newArray[index].timeStamp})">Abrir foto</button>
+									
 								</div><br>
 								`
 	})
@@ -280,7 +278,7 @@ const getFirebasePicture = timeStamp => {
     	temp = e.docs[0].data().Foto
 	})
 	.then(() => {
-		document.getElementById('fotoChave').src = temp
+		document.getElementById(timeStamp).src = temp
 	})
 }
 /*----------------------------------------------------------------------------------------------------------*/
