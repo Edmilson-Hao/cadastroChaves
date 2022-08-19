@@ -20,6 +20,7 @@ const errorMessageTwo = 'Chave não encontrada!'
 let imobiliaria, vistoriador, endereço, tipo, observacao, dataEnvio, timeStamp, temp
 let newArray = []
 let docArray = []
+let picArray = []
 /*----------------------------------------------------------------------------------------------------------*/
 
 
