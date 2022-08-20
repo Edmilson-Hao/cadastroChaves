@@ -1,19 +1,4 @@
-document.body.innerHTML = '<div id="loading" style="display: none;"><div id="loadingIcon" class="firstLoadingIcon"><div class="secondLoadingIcon"><div class="thirdLoadingIcon"></div></div></div></div>'
-document.getElementById('loading').style.display = "block";
-
-const getImages = () => {
-    picArray = []
-    db.collection("fotos").get().then(snapshot => {
-        const fotosli = snapshot.docs.reduce((acc, doc) => {
-            let picData = {
-                Foto: doc.data().Foto,
-                TimeStamp: doc.data().timeStamp
-            }
-            picArray.push(picData)
-        }, '')
-    })
-}
-
+/*------------------------------------------Get Keys--------------------------------------------------------*/
 const getDocs = () => {
     docArray = []
 	db.collection('chaves').get()
@@ -32,20 +17,57 @@ const getDocs = () => {
 		}, '')
 	
 	docArray.sort((a, b) => b.Datadeentrega.split('/').reverse().join('') - a.Datadeentrega.split('/').reverse().join(''))
-	
+
 	console.log(docArray)
+
+	getImages()
 	})
 }
+/*----------------------------------------------------------------------------------------------------------*/
 
-const backup = () => {
-    getImages
-    getDocs
 
-    if(docArray === [] || picArray === []) return
-    
-    printBackup(docArray, picArray)
+
+
+
+/*-----------------------------------------Get Images-------------------------------------------------------*/
+const getImages = () => {
+    picArray = []
+    db.collection("fotos").get().then(snapshot => {
+        const fotosli = snapshot.docs.reduce((acc, doc) => {
+            let picData = {
+                Foto: doc.data().Foto,
+                TimeStamp: doc.data().timeStamp
+            }
+            picArray.push(picData)
+        }, '')
+	
+		console.log(picArray)
+
+	    if(docArray === [] || picArray === []) return
+	    
+	    printBackup(docArray, picArray)
+    })
 }
+/*----------------------------------------------------------------------------------------------------------*/
 
+
+
+
+
+/*--------------------------------------------The BackUP trigger--------------------------------------------*/
+const backup = () => {
+	document.body.innerHTML = '<div id="loading" style="display: none;"><div id="loadingIcon" class="firstLoadingIcon"><div class="secondLoadingIcon"><div class="thirdLoadingIcon"></div></div></div></div>'
+	document.getElementById('loading').style.display = "block";
+
+    getDocs()
+}
+/*----------------------------------------------------------------------------------------------------------*/
+
+
+
+
+
+/*-------------------------------------------To print the BackUP--------------------------------------------*/
 const printBackup = (docArray, picArray) => {
     docArray.forEach((item, index) => {
         for (let i = 0; i < docArray.length; i++) {
@@ -71,3 +93,4 @@ const printBackup = (docArray, picArray) => {
 								`
     })
 }
+/*----------------------------------------------------------------------------------------------------------*/
