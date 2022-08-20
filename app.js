@@ -17,9 +17,10 @@ const errorMessageOne = 'Erro ao tentar cadastrar a chave!'
 const errorMessageTwo = 'Chave não encontrada!'
 
 //dados
-let imobiliaria, vistoriador, endereço, tipo, observacao, dataEnvio
+let imobiliaria, vistoriador, endereço, tipo, observacao, dataEnvio, timeStamp, temp
 let newArray = []
 let docArray = []
+let picArray = []
 /*----------------------------------------------------------------------------------------------------------*/
 
 
@@ -34,6 +35,7 @@ const getFormData = () => {
     tipo = document.querySelector('input[name="tipodevistoria"]:checked').value
     observacao = document.getElementById('observacao').value
     dataEnvio = new Date().toLocaleDateString("pt-BR")
+    timeStamp = Date.now()
 }
 /*----------------------------------------------------------------------------------------------------------*/
 
@@ -60,10 +62,14 @@ const sendDataToFirebase = () => {
 		Endereço: endereço,
 		Tipo: tipo,
 		Observação: observacao,
-		Foto: foto,
-		Data: dataEnvio
+		Data: dataEnvio,
+		FotoID: timeStamp
 	})
 	.then(() => {
+		db.collection('fotos').add({
+			Foto: foto,
+			FotoID: timeStamp
+		})
 		document.getElementById('loading').style.display = "none";
 		successSignal()
 		resetData()
@@ -197,7 +203,7 @@ const getDataFromFirebase = () => {
 	            Tipodavistoria: doc.data().Tipo,
 	            Observação: doc.data().Observação,
 	            Datadeentrega: doc.data().Data,
-	            Imagem: doc.data().Foto
+	            timeStamp: doc.data().FotoID
 	        }
         docArray.push(docData)
 		}, '')
@@ -252,11 +258,28 @@ const printSearchKeys = () => {
 									<p><li>Data de entrega:
 									${newArray[index].Datadeentrega}</p></li>
 									<br>
-									<img class='fotoDeResultado' src="${newArray[index].Imagem}">
+									<img class='fotoDeResultado' src="" id="${newArray[index].timeStamp}">
+									<button type="button" class="input btn btn-light" style='margin-left: 25%; border: 1px solid black; background-colo: rgba(0,0,0,.5)' onclick="getFirebasePicture(${newArray[index].timeStamp})">Abrir foto</button>
+									
 								</div><br>
 								`
 	})
 	document.getElementById('loading').style.display = "none";
 	if(newArray.length === 0) failedSignal(errorMessageTwo)
+}
+/*----------------------------------------------------------------------------------------------------------*/
+
+
+
+
+
+/*-------------------------------------------Get Firebase Picture-------------------------------------------*/
+const getFirebasePicture = timeStamp => {
+	db.collection("fotos").where("FotoID", "==", timeStamp).get().then(e => {
+    	temp = e.docs[0].data().Foto
+	})
+	.then(() => {
+		document.getElementById(timeStamp).src = temp
+	})
 }
 /*----------------------------------------------------------------------------------------------------------*/

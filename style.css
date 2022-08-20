@@ -111,7 +111,7 @@ canvas{
 .resultadoPesquisa > img{
     max-width: 99%;
     display: block;
-    margin: 0 auto;
+    margin: 1em auto;
     border-radius: 15px;
 }
 
