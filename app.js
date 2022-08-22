@@ -259,7 +259,7 @@ const printSearchKeys = () => {
 									${newArray[index].Datadeentrega}</p></li>
 									<br>
 									<img class='fotoDeResultado' src="" id="${newArray[index].timeStamp}">
-									<button type="button" class="input btn btn-light" style='display: block; margin: 0 auto; border: 1px solid black; background-colo: rgba(0,0,0,.5)' onclick="getFirebasePicture(${newArray[index].timeStamp})">Abrir foto</button>
+									<button type="button" class="btn btn-light" style='display: block; margin: 0 auto; border: 1px solid black; background-colo: rgba(0,0,0,.5); width: 90%;' onclick="getFirebasePicture(${newArray[index].timeStamp})">Abrir foto</button>
 									
 								</div><br>
 								`
